@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_26_170350) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_26_170754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_170350) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "participant_car_driver", force: :cascade do |t|
+    t.bigint "participant_id", null: false
+    t.bigint "car_driver_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_driver_id"], name: "index_participant_car_driver_on_car_driver_id"
+    t.index ["participant_id"], name: "index_participant_car_driver_on_participant_id"
+  end
+
   create_table "participants", force: :cascade do |t|
     t.string "name"
     t.integer "age"
@@ -32,4 +41,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_170350) do
     t.jsonb "drivers", default: []
   end
 
+  add_foreign_key "participant_car_driver", "car_drivers"
+  add_foreign_key "participant_car_driver", "participants"
 end
